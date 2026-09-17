@@ -1,0 +1,28 @@
+﻿@model JenjangSekolahDto
+<div class="modal fade" id="detailJenjangModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title"><i class="bi bi-info-circle me-1"></i> Detail Jenjang</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Nama Jenjang</dt>
+                    <dd class="col-sm-8">@Model.Nama</dd>
+
+                    <dt class="col-sm-4">Nama Sekolah</dt>
+                    <dd class="col-sm-8"><strong>@Model.NamaSekolah</strong></dd>
+
+                    <dt class="col-sm-4">Tahun Ajaran ID</dt>
+                    <dd class="col-sm-8">@Model.TahunAjaranID</dd>
+                </dl>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>

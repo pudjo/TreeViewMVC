@@ -1,0 +1,34 @@
+﻿@model JenjangSekolahDto
+
+<div class="modal fade" id="createJenjangModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-plus-circle me-1"></i> Tambah Jenjang Sekolah</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-controller="ManajemenSekolah" asp-action="CreateJenjang" method="post">
+                <div class="modal-body">
+                    <input asp-for="TahunAjaranID" type="hidden" />
+                    <div class="mb-3">
+                        <label asp-for="Nama" class="form-label">Nama Jenjang</label>
+                        <input asp-for="Nama" class="form-control" required />
+                        <span asp-validation-for="Nama" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NamaSekolah" class="form-label">Nama Sekolah</label>
+                        <input asp-for="NamaSekolah" class="form-control" placeholder="Contoh: SMA Negeri 1" />
+                        <span asp-validation-for="NamaSekolah" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

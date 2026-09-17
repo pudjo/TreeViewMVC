@@ -1,0 +1,286 @@
+﻿@model IEnumerable<TahunAjaranDto>
+
+@{
+    ViewData["Title"] = "Manajemen Sekolah - Hierarki";
+}
+
+<h2 class="mb-3">@ViewData["Title"]</h2>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <div>
+        <button type="button" class="btn btn-primary" onclick="openCreateTahun()">
+            <i class="bi bi-plus-lg me-1"></i> Tambah Tahun Ajaran
+        </button>
+    </div>
+</div>
+
+<div id="modal-placeholder"></div>
+
+<div id="manajemen-sekolah-tree">
+    @functions {
+        private void RenderTingkat(dynamic tingkat)
+        {
+            var hasRombongan = tingkat.Rombongans != null && tingkat.Rombongans.Count > 0;
+            var collapseId = "collapseTingkat_" + tingkat.ID;
+
+            <text>
+                <li>
+                    <div class="d-flex align-items-center gap-2">
+                        @if (hasRombongan)
+                        {
+                            <button class="btn btn-sm btn-light border p-1 toggle-collapse-btn" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+                                <i class="bi bi-chevron-down transition-icon"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <span style="width: 24px; display: inline-block;"></span>
+                        }
+
+                        <span class="node tingkat">@tingkat.Nama</span>
+                        <div>
+                            <button class="btn btn-sm btn-outline-info" onclick="openDetailTingkat(@tingkat.ID)"><i class="bi bi-eye"></i></button>
+                            <button class="btn btn-sm btn-outline-warning" onclick="openEditTingkat(@tingkat.ID)"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="openDeleteTingkat(@tingkat.ID)"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-sm btn-outline-success" title="Tambah Rombongan" onclick="openCreateRombonganFromTingkat(@tingkat.ID)"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                    </div>
+
+                    @if (hasRombongan)
+                    {
+                        <ul class="collapse show mt-1" id="@collapseId">
+                            @foreach (var rom in tingkat.Rombongans)
+                            {
+                                <li>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="node rombongan">@rom.Nama</span>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-info" onclick="openDetailRombongan(@rom.ID)"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning" onclick="openEditRombongan(@rom.ID)"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="openDeleteRombongan(@rom.ID)"><i class="bi bi-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            </text>
+        }
+
+        private void RenderJenjang(dynamic jenjang)
+        {
+            var hasTingkat = jenjang.Tingkats != null && jenjang.Tingkats.Count > 0;
+            var collapseId = "collapseJenjang_" + jenjang.ID;
+
+            <text>
+                <li>
+                    <div class="d-flex align-items-center gap-2">
+                        @if (hasTingkat)
+                        {
+                            <button class="btn btn-sm btn-light border p-1 toggle-collapse-btn" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+                                <i class="bi bi-chevron-down transition-icon"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <span style="width: 24px; display: inline-block;"></span>
+                        }
+
+                        <span class="node jenjang">
+                            @jenjang.Nama - <strong class="text-dark">@jenjang.NamaSekolah</strong>
+                        </span>
+
+                        <div>
+                            <button class="btn btn-sm btn-outline-info" onclick="openDetailJenjang(@jenjang.ID)"><i class="bi bi-eye"></i></button>
+                            <button class="btn btn-sm btn-outline-warning" onclick="openEditJenjang(@jenjang.ID)"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="openDeleteJenjang(@jenjang.ID)"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-sm btn-outline-success" title="Tambah Tingkat" onclick="openCreateTingkat(@jenjang.ID)"><i class="bi bi-plus-lg"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary" title="Tambah Rombongan" onclick="openCreateRombonganFromJenjang(@jenjang.ID)"><i class="bi bi-folder-plus"></i></button>
+                        </div>
+                    </div>
+
+                    @if (hasTingkat)
+                    {
+                        <ul class="collapse show mt-1" id="@collapseId">
+                            @foreach (var t in jenjang.Tingkats)
+                            {
+                                RenderTingkat(t);
+                            }
+                        </ul>
+                    }
+                </li>
+            </text>
+        }
+    }
+
+    <ul class="tree-root">
+        @foreach (var tahun in Model)
+        {
+            var hasJenjang = tahun.Jenjangs != null && tahun.Jenjangs.Count > 0;
+            var collapseId = "collapseTahun_" + tahun.ID;
+
+            <li>
+                <div class="d-flex align-items-center gap-2">
+                    @if (hasJenjang)
+                    {
+                        <button class="btn btn-sm btn-light border p-1 toggle-collapse-btn" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+                            <i class="bi bi-chevron-down transition-icon"></i>
+                        </button>
+                    }
+                    else
+                    {
+                        <span style="width: 24px; display: inline-block;"></span>
+                    }
+
+                    <span class="node tahun">@tahun.Nama</span>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="openCreateJenjang(@tahun.ID)"><i class="bi bi-plus-lg"></i> Add Jenjang</button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="openEditTahun(@tahun.ID)"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteTahun(@tahun.ID)"><i class="bi bi-trash"></i></button>
+                    </div>
+                </div>
+
+                @if (hasJenjang)
+                {
+                    <ul class="collapse show mt-1" id="@collapseId">
+                        @foreach (var j in tahun.Jenjangs)
+                        {
+                            RenderJenjang(j);
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+</div>
+
+<style>
+    .tree-root, .tree-root ul {
+        list-style: none;
+        margin: 0;
+        padding-left: 1rem;
+    }
+
+        .tree-root li {
+            margin: 0.25rem 0;
+        }
+
+    .node {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+        .node.tahun {
+            background: #e3f2fd;
+            font-weight: 600;
+        }
+
+        .node.jenjang {
+            background: #f1f8e9;
+        }
+
+        .node.tingkat {
+            background: #fff3e0;
+        }
+
+        .node.rombongan {
+            background: #fce4ec;
+        }
+
+    /* Animasi putar ikon panah saat collapse aktif/non-aktif */
+    .toggle-collapse-btn .transition-icon {
+        transition: transform 0.2s ease-in-out;
+        display: inline-block;
+    }
+
+    .toggle-collapse-btn.collapsed .transition-icon {
+        transform: rotate(-90deg);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        async function loadModal(url) {
+            const placeholder = document.getElementById('modal-placeholder');
+            const res = await fetch(url);
+            const html = await res.text();
+            placeholder.innerHTML = html;
+
+            const modalEl = placeholder.querySelector('.modal');
+            if (modalEl) {
+                const modal = new bootstrap.Modal(modalEl);
+                modal.show();
+
+                const form = modalEl.querySelector('form');
+                if (form) {
+                    form.addEventListener('submit', async function (e) {
+                        e.preventDefault();
+                        const fd = new FormData(form);
+                        const action = form.getAttribute('action') || window.location.href;
+                        const method = (form.getAttribute('method') || 'post').toUpperCase();
+
+                        const r = await fetch(action, { method: method, body: fd });
+                        const json = await r.json();
+                        if (json?.success) {
+                            modal.hide();
+                            location.reload();
+                        } else {
+                            alert(json?.message ?? 'Terjadi kesalahan');
+                        }
+                    });
+                }
+            }
+        }
+
+        // Script tambahan untuk menangani state class .collapsed pada tombol toggle panah Bootstrap
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.collapse').forEach(function (collapseEl) {
+                collapseEl.addEventListener('hidden.bs.collapse', function () {
+                    const btn = document.querySelector(`[data-bs-target="#${this.id}"]`);
+                    if (btn) btn.classList.add('collapsed');
+                });
+                collapseEl.addEventListener('shown.bs.collapse', function () {
+                    const btn = document.querySelector(`[data-bs-target="#${this.id}"]`);
+                    if (btn) btn.classList.remove('collapsed');
+                });
+            });
+        });
+
+        // Tingkat
+        function openCreateTingkat(jenjangId) {
+            loadModal('@Url.Action("CreateTingkatModal", "ManajemenSekolah")?jenjangId=' + jenjangId);
+        }
+        function openEditTingkat(id) {
+            loadModal('@Url.Action("EditTingkatModal", "ManajemenSekolah")/' + id);
+        }
+        function openDeleteTingkat(id) {
+            loadModal('@Url.Action("DeleteTingkatModal", "ManajemenSekolah")/' + id);
+        }
+        function openDetailTingkat(id) {
+            loadModal('@Url.Action("DetailTingkatModal", "ManajemenSekolah")/' + id);
+        }
+
+        // Rombongan
+        function openCreateRombonganFromJenjang(jenjangId) {
+            loadModal('@Url.Action("CreateRombonganModal", "ManajemenSekolah")?jenjangId=' + jenjangId);
+        }
+        function openCreateRombonganFromTingkat(tingkatId) {
+            loadModal('@Url.Action("CreateRombonganModal", "ManajemenSekolah")?tingkatId=' + tingkatId);
+        }
+        function openEditRombongan(id) { loadModal('@Url.Action("EditRombonganModal", "ManajemenSekolah")/' + id); }
+        function openDeleteRombongan(id) { loadModal('@Url.Action("DeleteRombonganModal", "ManajemenSekolah")/' + id); }
+        function openDetailRombongan(id) { loadModal('@Url.Action("DetailRombonganModal", "ManajemenSekolah")/' + id); }
+
+        // Jenjang & Tahun
+        function openCreateJenjang(tahunId) { loadModal('@Url.Action("CreateJenjangModal", "ManajemenSekolah")?tahunAjaranId=' + tahunId); }
+        function openEditJenjang(id) { loadModal('@Url.Action("EditJenjangModal", "ManajemenSekolah")/' + id); }
+        function openDeleteJenjang(id) { loadModal('@Url.Action("DeleteJenjangModal", "ManajemenSekolah")/' + id); }
+        function openDetailJenjang(id) { loadModal('@Url.Action("DetailJenjangModal", "ManajemenSekolah")/' + id); }
+
+        function openCreateTahun() { loadModal('@Url.Action("CreateTahunModal", "ManajemenSekolah")'); }
+        function openEditTahun(id) { loadModal('@Url.Action("EditTahunModal", "ManajemenSekolah")/' + id); }
+        function openDeleteTahun(id) { loadModal('@Url.Action("DeleteTahunModal", "ManajemenSekolah")/' + id); }
+    </script>
+}

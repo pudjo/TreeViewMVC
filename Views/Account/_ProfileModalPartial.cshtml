@@ -1,0 +1,58 @@
+﻿@using Sekolah.DTO
+@using Sekolah.DTO
+@model ProfileDto
+
+<div class="modal-header bg-primary text-white">
+    <h5 class="modal-title" id="globalProfileModalLabel">
+        <i class="bi bi-person-gear me-2"></i> Profil Pengguna
+    </h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<form id="formProfileModal" onsubmit="submitProfileModal(event)">
+    @Html.AntiForgeryToken()
+
+    <div class="modal-body p-4">
+        <!-- Tempat menampilkan pesan sukses atau error validasi -->
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger small py-2" role="alert"></div>
+        <div id="profileAlertContainer"></div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="FirstName" class="form-label fw-semibold small"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="LastName" class="form-label fw-semibold small"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label fw-semibold small">Alamat Email</label>
+            <input asp-for="Email" class="form-control bg-light" readonly />
+            <div class="form-text small">Email tidak dapat diubah secara mandiri.</div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label fw-semibold small"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label fw-semibold small"></label>
+            <textarea asp-for="Address" class="form-control" rows="2"></textarea>
+            <span asp-validation-for="Address" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary btn-sm px-3">
+            <i class="bi bi-save me-1"></i> Simpan Perubahan
+        </button>
+    </div>
+</form>

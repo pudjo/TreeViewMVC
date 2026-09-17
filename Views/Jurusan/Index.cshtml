@@ -1,0 +1,92 @@
+﻿@using Sekolah.Models.ManajemenSekolah
+@model IEnumerable<Jurusan>
+
+@{
+    ViewData["Title"] = "Daftar Jurusan";
+}
+
+<h2 class="mb-3">@ViewData["Title"]</h2>
+
+<div class="mb-3">
+    <button class="btn btn-primary" onclick="openCreate()">
+        <i class="bi bi-plus-lg me-1"></i> Tambah Jurusan
+    </button>
+</div>
+
+<div id="modal-placeholder"></div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nama Jurusan</th>
+                        <th style="width:140px" class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Nama</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-warning" onclick="openEdit(@item.Id)"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="openDelete(@item.Id)"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">Data belum tersedia.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        async function loadModal(url) {
+            const ph = document.getElementById('modal-placeholder');
+            const res = await fetch(url);
+            ph.innerHTML = await res.text();
+            const modalEl = ph.querySelector('.modal');
+            if (!modalEl) return;
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
+
+            const form = modalEl.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const fd = new FormData(form);
+                    const action = form.getAttribute('action') || window.location.href;
+                    const method = (form.getAttribute('method') || 'post').toUpperCase();
+
+                    const r = await fetch(action, { method: method, body: fd });
+                    const json = await r.json();
+                    if (json?.success) {
+                        modal.hide();
+                        location.reload();
+                    } else {
+                        alert(json?.message ?? 'Terjadi kesalahan');
+                    }
+                });
+            }
+        }
+
+        function openCreate() { loadModal('@Url.Action("CreateModal", "Jurusan")'); }
+        function openEdit(id) { loadModal(`@Url.Action("EditModal", "Jurusan")/${id}`); }
+        function openDelete(id) { loadModal(`@Url.Action("DeleteModal", "Jurusan")/${id}`); }
+    </script>
+}
+

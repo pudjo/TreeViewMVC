@@ -1,0 +1,46 @@
+﻿@model RombonganBelajarDto
+
+<div class="modal fade" id="editRombonganModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title"><i class="bi bi-pencil-square me-1"></i> Edit Rombongan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-controller="ManajemenSekolah" asp-action="EditRombongan" method="post">
+                <input asp-for="ID" type="hidden" />
+                <input asp-for="TingkatSekolahID" type="hidden" />
+                <input asp-for="JenjangSekolahID" type="hidden" />
+                <input asp-for="TahunAjaranID" type="hidden" />
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="Nama" class="form-label">Nama Rombongan</label>
+                        <input asp-for="Nama" class="form-control" required />
+                        <span asp-validation-for="Nama" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="JurusanID" class="form-label">Jurusan</label>
+                        <select asp-for="JurusanID" class="form-select" required>
+                            <option value="">-- Pilih Jurusan --</option>
+                            @if (ViewBag.Jurusans != null)
+                            {
+                                foreach (var j in (IEnumerable<Jurusan>)ViewBag.Jurusans)
+                                {
+                                    <option value="@j.Id">@j.Nama</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿@model RombonganBelajarDto
+
+<div class="modal fade" id="deleteRombonganModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="bi bi-trash me-1"></i> Hapus Rombongan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-controller="ManajemenSekolah" asp-action="DeleteRombongan" method="post">
+                <input type="hidden" name="id" value="@Model.ID" />
+                <div class="modal-body">
+                    <p>Yakin menghapus rombongan <strong>@Model.Nama</strong> ?</p>
+                    <p class="text-muted small">Tindakan ini dapat memengaruhi data yang terkait.</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

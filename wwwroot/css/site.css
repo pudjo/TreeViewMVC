@@ -1,0 +1,61 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+    padding-top: 70px; /* Sesuaikan angka ini hingga gambar pas berada tepat di bawah navbar */
+}
+.full-width-banner {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: -1.5rem; /* Menempelkan gambar ke atas (menghapus celah) */
+}
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+<style >
+/* Pembungkus gambar agar gambar tidak meluber keluar saat membesar */
+.img-zoom-container {
+    width: 60px; /* Sesuaikan lebar thumbnail di tabel */
+    height: 60px; /* Sesuaikan tinggi thumbnail */
+    overflow: hidden; /* Memotong gambar yang keluar batas */
+    border-radius: 6px; /* Bikin sudut agak melengkung (opsional) */
+    display: inline-block;
+    background-color: #f8f9fa;
+}
+
+/* Efek transisi dan scaling pada gambar */
+.img-zoom-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Agar rasio gambar tidak gepeng */
+    transition: transform 0.3s ease-in-out; /* Efek kehalusan gerak */
+}
+
+/* Saat mouse mengarah (hover) ke container, perbesar gambar */
+.img-zoom-container:hover img {
+    transform: scale(1.8); /* Angka 1.8 berarti gambar membesar 180% (bisa disesuaikan) */
+    cursor: zoom-in; /* Mengubah kursor mouse menjadi ikon kaca pembesar */
+}
+
+</style >

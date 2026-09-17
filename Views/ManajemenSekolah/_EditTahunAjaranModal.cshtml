@@ -1,0 +1,42 @@
+﻿@model TahunAjaranDto
+
+<div class="modal fade" id="editTahunModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title"><i class="bi bi-pencil-square me-1"></i> Edit Tahun Ajaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-controller="ManajemenSekolah" asp-action="EditTahun" method="post">
+                <input type="hidden" asp-for="ID" />
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Nama" class="form-label">Nama</label>
+                        <input asp-for="Nama" class="form-control" required />
+                        <span asp-validation-for="Nama" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label asp-for="TanggalMulai" class="form-label">Tanggal Mulai</label>
+                            <input asp-for="TanggalMulai" type="date" class="form-control" required />
+                        </div>
+                        <div class="col">
+                            <label asp-for="TanggalAKhir" class="form-label">Tanggal Akhir</label>
+                            <input asp-for="TanggalAKhir" type="date" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

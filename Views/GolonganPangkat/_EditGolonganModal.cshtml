@@ -1,0 +1,25 @@
+﻿@using Sekolah.DTO
+@model GolonganDto
+
+<div class="modal-header bg-warning text-dark">
+    <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Golongan</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<form id="genericForm" asp-action="EditGolongan" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div class="modal-body">
+        <div class="mb-3">
+            <label asp-for="Code" class="form-label fw-semibold">Kode Golongan</label>
+            <input asp-for="Code" class="form-control" placeholder="Contoh: IV" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Nama" class="form-label fw-semibold">Nama Golongan</label>
+            <input asp-for="Nama" class="form-control" placeholder="Contoh: Golongan IV" required />
+        </div>
+    </div>
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-save me-1"></i>Simpan Perubahan</button>
+    </div>
+</form>

@@ -1,0 +1,22 @@
+﻿@using Sekolah.DTO
+@model PangkatDto
+
+<div class="modal-header bg-info text-white">
+    <h5 class="modal-title"><i class="bi bi-file-earmark-text me-2"></i>Detail Pangkat</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <dl class="row mb-0">
+        <dt class="col-sm-4">Golongan Induk</dt>
+        <dd class="col-sm-8"><span class="badge bg-primary">@Model.NamaGolongan</span></dd>
+
+        <dt class="col-sm-4">Kode Pangkat</dt>
+        <dd class="col-sm-8"><span class="badge bg-secondary">@Model.Code</span></dd>
+
+        <dt class="col-sm-4">Nama Pangkat</dt>
+        <dd class="col-sm-8 fw-bold">@Model.Name</dd>
+    </dl>
+</div>
+<div class="modal-footer bg-light">
+    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+</div>

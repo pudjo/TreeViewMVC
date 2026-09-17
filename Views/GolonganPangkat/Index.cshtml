@@ -1,0 +1,163 @@
+﻿@using Sekolah.DTO
+@model IEnumerable<GolonganDto>
+@Html.AntiForgeryToken() 
+@{
+    ViewData["Title"] = "Manajemen Golongan & Pangkat";
+}
+
+<div class="container-fluid px-2 px-md-4 py-3">
+    <div class="row align-items-center mb-3">
+        <div class="col-12 col-md-6">
+            <h4 class="fw-bold mb-0">Struktur Golongan & Pangkat</h4>
+            <p class="text-muted small mb-0">Kelola hierarki golongan pegawai dan jenjang pangkatnya.</p>
+        </div>
+        <div class="col-12 col-md-6 text-start text-md-end">
+            <button class="btn btn-primary btn-sm shadow-sm" onclick="openModal('/GolonganPangkat/CreateGolonganModal')">
+                <i class="bi bi-plus-lg me-1"></i> Tambah Golongan Induk
+            </button>
+        </div>
+    </div>
+
+    <!-- Treeview Card Container -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            @if (Model != null && Model.Any())
+            {
+                <ul class="list-group list-group-flush treeview-root">
+                    @foreach (var gol in Model)
+                    {
+                        <li class="list-group-item px-0 py-2 border-0">
+                            <!-- Baris Golongan (Induk) -->
+                            <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded shadow-sm">
+                                <div>
+                                    <i class="bi bi-folder-fill text-warning me-2"></i>
+                                    <span class="fw-bold text-dark">[@gol.Code] @gol.Nama</span>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots-vertical"></i> Aksi
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                        <li><a class="dropdown-item small" href="javascript:void(0)" onclick="openModal('/GolonganPangkat/CreatePangkatModal?golonganId=@gol.Id')"><i class="bi bi-plus-circle text-success me-2"></i>Tambah Pangkat</a></li>
+                                        <li><a class="dropdown-item small" href="javascript:void(0)" onclick="openModal('/GolonganPangkat/DetailsGolonganModal/@gol.Id')"><i class="bi bi-eye text-info me-2"></i>Detail Golongan</a></li>
+                                        <li><a class="dropdown-item small" href="javascript:void(0)" onclick="openModal('/GolonganPangkat/EditGolonganModal/@gol.Id')"><i class="bi bi-pencil text-warning me-2"></i>Edit Golongan</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item small text-danger" href="javascript:void(0)" onclick="deleteItem('/GolonganPangkat/DeleteGolongan/@gol.Id', 'Golongan ini beserta isinya?')"><i class="bi bi-trash me-2"></i>Hapus</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Sub-List Pangkat (Detail) -->
+                            @if (gol.Pangkats != null && gol.Pangkats.Any())
+                            {
+                                <ul class="list-group list-group-flush ms-4 mt-2 border-start ps-3">
+                                    @foreach (var pangkap in gol.Pangkats)
+                                    {
+                                        <li class="list-group-item px-0 py-1 border-0 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="bi bi-file-earmark-text text-muted me-2"></i>
+                                                <span>[@pangkap.Code] @pangkap.Name</span>
+                                            </div>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-link text-muted p-0 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                    <i class="bi bi-three-dots"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                                    <li><a class="dropdown-item small" href="javascript:void(0)" onclick="openModal('/GolonganPangkat/DetailsPangkatModal/@pangkap.Id')"><i class="bi bi-eye text-info me-2"></i>Detail Pangkat</a></li>
+                                                    <li><a class="dropdown-item small" href="javascript:void(0)" onclick="openModal('/GolonganPangkat/EditPangkatModal/@pangkap.Id')"><i class="bi bi-pencil text-warning me-2"></i>Edit Pangkat</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item small text-danger" href="javascript:void(0)" onclick="deleteItem('/GolonganPangkat/DeletePangkat/@pangkap.Id', 'Pangkat ini?')"><i class="bi bi-trash me-2"></i>Hapus</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <div class="ms-4 mt-1 text-muted small fst-italic">Belum ada pangkat terkait.</div>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-diagram-3 display-6 d-block mb-2 text-secondary"></i>
+                    Belum ada data Golongan.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal Container -->
+<div class="modal fade" id="generalModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="modalContentContainer"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openModal(url) {
+            $.get(url, function (data) {
+                $('#modalContentContainer').html(data);
+                var myModal = new bootstrap.Modal(document.getElementById('generalModal'));
+                myModal.show();
+            });
+        }
+
+        $(document).on('submit', '#genericForm', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (res) {
+                    if (res.success) {
+                        var modalEl = document.getElementById('generalModal');
+                        var modal = bootstrap.Modal.getInstance(modalEl);
+                        modal.hide();
+                        location.reload();
+                    } else {
+                        alert(res.message);
+                    }
+                }
+            });
+        });
+
+                     function deleteItem(url, itemName) {
+            if (confirm('Yakin ingin menghapus ' + itemName)) {
+
+                // Ambil nilai token dari DOM
+                var token = $('input[name="__RequestVerificationToken"]').val();
+
+                if (!token) {
+                    alert('Anti-Forgery Token tidak ditemukan di halaman! Pastikan @Html.AntiForgeryToken() sudah terpasang.');
+                    return;
+                }
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    headers: {
+                        "RequestVerificationToken": token // Dikirim sebagai Request Header
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            location.reload();
+                        } else {
+                            alert(res.message);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('Terjadi kesalahan (' + xhr.status + '): ' + xhr.statusText);
+                    }
+                });
+            }
+        }
+    </script>
+}

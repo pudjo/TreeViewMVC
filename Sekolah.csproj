@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\products\1.jpg" />
+    <None Include="wwwroot\Images\products\1.webp" />
+    <None Include="wwwroot\Images\products\10.jpg" />
+    <None Include="wwwroot\Images\products\10.webp" />
+    <None Include="wwwroot\Images\products\11.jpg" />
+    <None Include="wwwroot\Images\products\11.webp" />
+    <None Include="wwwroot\Images\products\12.webp" />
+    <None Include="wwwroot\Images\products\13.webp" />
+    <None Include="wwwroot\Images\products\14.webp" />
+    <None Include="wwwroot\Images\products\2.jpg" />
+    <None Include="wwwroot\Images\products\2.webp" />
+    <None Include="wwwroot\Images\products\3.jpg" />
+    <None Include="wwwroot\Images\products\3.webp" />
+    <None Include="wwwroot\Images\products\4.jpg" />
+    <None Include="wwwroot\Images\products\4.webp" />
+    <None Include="wwwroot\Images\products\5.jpg" />
+    <None Include="wwwroot\Images\products\5.webp" />
+    <None Include="wwwroot\Images\products\6.jpg" />
+    <None Include="wwwroot\Images\products\6.webp" />
+    <None Include="wwwroot\Images\products\7.jpg" />
+    <None Include="wwwroot\Images\products\7.webp" />
+    <None Include="wwwroot\Images\products\8.jpg" />
+    <None Include="wwwroot\Images\products\8.webp" />
+    <None Include="wwwroot\Images\products\9.jpg" />
+    <None Include="wwwroot\Images\products\9.webp" />
+    <None Include="wwwroot\Images\products\komputer.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.30" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.30" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.30">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\logobig.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

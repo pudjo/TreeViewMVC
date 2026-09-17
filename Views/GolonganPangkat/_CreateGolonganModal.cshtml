@@ -1,0 +1,23 @@
+﻿@using Sekolah.DTO
+@model GolonganDto
+<form id="genericForm" asp-action="CreateGolonganModal" method="post">
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        <h5 class="modal-title fw-bold">Tambah Golongan Induk</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            <label asp-for="Code" class="form-label small fw-semibold">Kode Golongan</label>
+            <input asp-for="Code" class="form-control" placeholder="Contoh: IV" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Nama" class="form-label small fw-semibold">Nama Golongan</label>
+            <input asp-for="Nama" class="form-control" placeholder="Contoh: Pembina Utama" />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-primary btn-sm px-4">Simpan</button>
+    </div>
+</form>

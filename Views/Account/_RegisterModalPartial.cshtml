@@ -1,0 +1,77 @@
+﻿@using Sekolah.DTO
+@using Sekolah.DTO
+@model RegisterDto
+
+<div class="modal-header bg-primary text-white">
+    <h5 class="modal-title fw-bold" id="registerModalLabel">
+        @(Model.IsAdminRegistration ? "Pendaftaran User Baru (Admin)" : "Pendaftaran Akun Baru")
+
+
+    </h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+
+<form id="formRegisterModal" onsubmit="submitRegisterModal(event)">
+    @Html.AntiForgeryToken()
+    <div class="modal-body p-4">
+        <!-- Validation Summary -->
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+        <!-- Nama Depan & Nama Belakang -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label asp-for="FirstName" class="form-label fw-semibold">Nama Depan</label>
+                <input asp-for="FirstName" class="form-control" placeholder="John" />
+                <span asp-validation-for="FirstName" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="LastName" class="form-label fw-semibold">Nama Belakang</label>
+                <input asp-for="LastName" class="form-control" placeholder="Doe" />
+                <span asp-validation-for="LastName" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <!-- Email & Telepon -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label fw-semibold">Alamat Email</label>
+                <input asp-for="Email" class="form-control" placeholder="nama@domain.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PhoneNumber" class="form-label fw-semibold">Nomor Telepon</label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="081234567890" />
+                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <!-- Alamat -->
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label fw-semibold">Alamat Lengkap</label>
+            <textarea asp-for="Address" class="form-control" rows="2" placeholder="Jl. Sudirman No. 123..."></textarea>
+            <span asp-validation-for="Address" class="text-danger small"></span>
+        </div>
+
+        @if (!Model.IsAdminRegistration)
+        {
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label asp-for="Password" class="form-label fw-semibold">Kata Sandi</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="******" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ConfirmPassword" class="form-label fw-semibold">Konfirmasi Kata Sandi</label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="******" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                </div>
+            </div>
+        }
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check-circle-fill me-1"></i> Simpan / Daftar
+        </button>
+    </div>
+</form>
