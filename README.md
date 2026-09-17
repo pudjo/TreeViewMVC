@@ -31,3 +31,5 @@ In this project, a **Tree View** component is utilized in ASP.NET MVC to effecti
 * **Improved UX:** Enhances user experience when dealing with nested financial structures or categorical data.
 image:
   ![Tree View ASP.NET MVC](Images/TreeviewMVC.png)
+![Tree View ASP.NET MVC](TreeviewMVC_Addmodal1.png)
+![Tree View ASP.NET MVC](TreeviewMVC_Addmodal2.png)
